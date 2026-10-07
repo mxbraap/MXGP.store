@@ -1,30 +1,410 @@
 /**
- * blank.css — the Blank Canvas pack's stylesheet. Already imported (by
- * homepage.tsx and chrome.tsx), so anything you write here is live on every
- * storefront page the moment you save. No wiring needed — just write CSS.
- *
- * THE ONE CONVENTION — scope everything under `.blank-canvas`:
- *
- *   This file is bundled globally (Next.js global CSS via the design pack),
- *   so an unscoped rule like `h1 { … }` would leak into the admin, the cart,
- *   checkout and every other built-in route. Put the `blank-canvas` class on
- *   your design's root elements (e.g. <main className="blank-canvas">,
- *   <header className="blank-canvas">) and prefix every selector with it.
- *   Scoped rules can never leak — other design packs do exactly this
- *   (see designs/aerospace/aero.css, everything under `.aero`).
- *
- * PREFER ZERO DISCIPLINE? Use a CSS Module instead of this global file: name a
- * file `blank.module.css`, `import styles from "./blank.module.css"`, and use
- * `className={styles.hero}`. Next.js hashes every class so nothing can ever leak
- * — no `.blank-canvas` prefix needed. The two approaches can coexist; pick per file.
- *
- * A richer opt-in starter (display-font hookup via next/font, section-rhythm
- * variables, dark-band utility) ships at examples/blank.css.example — copy
- * what you need into this file.
+ * blank.css — MXGP.store styles. Everything scoped under `.blank-canvas`
+ * so nothing leaks into admin / cart / checkout.
  */
 
 .blank-canvas {
-  /* Your custom properties and base styles. Example:
-     --font-display: system-ui, sans-serif;
-     --section-y: clamp(5rem, 10vw, 8rem);                                  */
+  --mxgp-red: #e10600;
+  --mxgp-red-dark: #a80500;
+  --mxgp-black: #0a0a0a;
+  --mxgp-white: #ffffff;
+  --mxgp-gray: #6e6e6e;
+  --mxgp-line: #e8e8e8;
+  --mxgp-bg: #ffffff;
+  --mxgp-bg-alt: #f4f4f4;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.blank-canvas .mxgp-topstrip {
+  height: 4px;
+  background: var(--mxgp-red);
+}
+.blank-canvas .mxgp-headerbar {
+  background: var(--mxgp-black);
+}
+.blank-canvas .mxgp-nav {
+  margin: 0 auto;
+  max-width: 80rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+}
+.blank-canvas .mxgp-logo {
+  font-weight: 900;
+  font-style: italic;
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+  color: var(--mxgp-white);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.blank-canvas .mxgp-logo-dot {
+  color: var(--mxgp-red);
+}
+.blank-canvas .mxgp-navlinks {
+  display: flex;
+  gap: 1.75rem;
+}
+.blank-canvas .mxgp-navlink {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.blank-canvas .mxgp-navlink:hover {
+  color: var(--mxgp-red);
+}
+
+/* ── Hero ───────────────────────────────────────────────── */
+.blank-canvas .mxgp-hero {
+  position: relative;
+  min-height: 78vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: var(--mxgp-black);
+}
+.blank-canvas .mxgp-hero-empty {
+  align-items: center;
+  background:
+    radial-gradient(60% 90% at 80% 10%, rgba(225, 6, 0, 0.35), transparent 60%),
+    var(--mxgp-black);
+}
+.blank-canvas .mxgp-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.blank-canvas .mxgp-hero-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 10, 0.92) 0%,
+    rgba(10, 10, 10, 0.45) 55%,
+    rgba(10, 10, 10, 0.15) 100%
+  );
+}
+.blank-canvas .mxgp-hero-inner {
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 80rem;
+  padding: 4rem 1.25rem;
+  color: var(--mxgp-white);
+}
+.blank-canvas .mxgp-kicker {
+  display: inline-block;
+  background: var(--mxgp-red);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0.35rem 0.9rem;
+  margin: 0 0 1.25rem;
+  transform: skewX(-12deg);
+}
+.blank-canvas .mxgp-hero-title {
+  font-size: clamp(2rem, 5vw, 3.75rem);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 0 0 1rem;
+  max-width: 16em;
+}
+.blank-canvas .mxgp-hero-excerpt {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 38rem;
+  margin: 0 0 1rem;
+  font-weight: 400;
+}
+.blank-canvas .mxgp-hero-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1.75rem;
+  font-weight: 400;
+}
+.blank-canvas .mxgp-btn {
+  display: inline-block;
+  background: var(--mxgp-red);
+  color: #fff;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.875rem;
+  padding: 0.9rem 2.25rem;
+  text-decoration: none;
+  transform: skewX(-12deg);
+  transition: background 160ms ease;
+}
+.blank-canvas .mxgp-btn:hover {
+  background: var(--mxgp-red-dark);
+}
+.blank-canvas .mxgp-btn-light {
+  background: var(--mxgp-white);
+  color: var(--mxgp-black);
+}
+.blank-canvas .mxgp-btn-light:hover {
+  background: var(--mxgp-bg-alt);
+}
+
+/* ── Sections ───────────────────────────────────────────── */
+.blank-canvas .mxgp-section {
+  margin: 0 auto;
+  max-width: 80rem;
+  padding: 4.5rem 1.25rem;
+}
+.blank-canvas .mxgp-section-alt {
+  background: var(--mxgp-bg-alt);
+  max-width: none;
+}
+.blank-canvas .mxgp-section-alt > * {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.blank-canvas .mxgp-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  border-bottom: 3px solid var(--mxgp-black);
+  padding-bottom: 0.75rem;
+}
+.blank-canvas .mxgp-section-title {
+  font-size: 1.75rem;
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--mxgp-black);
+}
+.blank-canvas .mxgp-section-link {
+  color: var(--mxgp-red);
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.blank-canvas .mxgp-empty {
+  color: var(--mxgp-gray);
+  padding: 2rem 0;
+}
+
+/* ── News grid ──────────────────────────────────────────── */
+.blank-canvas .mxgp-newsgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: 1.5rem;
+}
+.blank-canvas .mxgp-newscard {
+  display: block;
+  text-decoration: none;
+  background: var(--mxgp-white);
+  border: 1px solid var(--mxgp-line);
+  overflow: hidden;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.blank-canvas .mxgp-newscard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(10, 10, 10, 0.12);
+}
+.blank-canvas .mxgp-newscard-img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  background: var(--mxgp-bg-alt);
+}
+.blank-canvas .mxgp-newscard-img-empty {
+  background:
+    linear-gradient(135deg, var(--mxgp-black) 60%, var(--mxgp-red-dark) 130%);
+}
+.blank-canvas .mxgp-newscard-body {
+  padding: 1.25rem;
+}
+.blank-canvas .mxgp-newscard-date {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--mxgp-red);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.blank-canvas .mxgp-newscard-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--mxgp-black);
+  margin: 0.5rem 0;
+}
+.blank-canvas .mxgp-newscard-excerpt {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--mxgp-gray);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-weight: 400;
+}
+
+/* ── Product grid ───────────────────────────────────────── */
+.blank-canvas .mxgp-productgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1.5rem;
+}
+.blank-canvas .mxgp-productcard {
+  display: block;
+  text-decoration: none;
+  background: var(--mxgp-white);
+  border: 1px solid var(--mxgp-line);
+  overflow: hidden;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.blank-canvas .mxgp-productcard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(10, 10, 10, 0.12);
+}
+.blank-canvas .mxgp-productcard-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  background: var(--mxgp-white);
+}
+.blank-canvas .mxgp-productcard-img-empty {
+  background:
+    linear-gradient(135deg, #1a1a1a 50%, var(--mxgp-red-dark) 140%);
+}
+.blank-canvas .mxgp-productcard-body {
+  padding: 1rem 1.25rem 1.25rem;
+}
+.blank-canvas .mxgp-productcard-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--mxgp-black);
+  margin: 0 0 0.35rem;
+  line-height: 1.4;
+}
+.blank-canvas .mxgp-productcard-price {
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--mxgp-red);
+  margin: 0;
+}
+
+/* ── CTA band ───────────────────────────────────────────── */
+.blank-canvas .mxgp-cta {
+  background:
+    linear-gradient(100deg, var(--mxgp-red-dark) 0%, var(--mxgp-red) 55%, #f93a2b 100%);
+  color: #fff;
+  text-align: center;
+  padding: 4.5rem 1.25rem;
+}
+.blank-canvas .mxgp-cta-title {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  margin: 0 0 0.75rem;
+}
+.blank-canvas .mxgp-cta-text {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 2rem;
+  font-weight: 400;
+}
+
+/* ── Footer ─────────────────────────────────────────────── */
+.blank-canvas .mxgp-footer {
+  background: var(--mxgp-black);
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 0;
+}
+.blank-canvas .mxgp-footer-grid {
+  margin: 0 auto;
+  max-width: 80rem;
+  padding: 3.5rem 1.25rem 2.5rem;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 2.5rem;
+}
+.blank-canvas .mxgp-footer-blurb {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin: 1rem 0 0;
+  max-width: 22rem;
+  font-weight: 400;
+}
+.blank-canvas .mxgp-footer-title {
+  color: #fff;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  margin: 0 0 1rem;
+}
+.blank-canvas .mxgp-footer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+.blank-canvas .mxgp-footer-links a {
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+.blank-canvas .mxgp-footer-links a:hover {
+  color: var(--mxgp-red);
+}
+.blank-canvas .mxgp-footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  margin: 0 auto;
+  max-width: 80rem;
+  padding: 1.25rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 400;
+}
+
+@media (max-width: 640px) {
+  .blank-canvas .mxgp-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .blank-canvas .mxgp-navlinks {
+    gap: 1rem;
+  }
+  .blank-canvas .mxgp-navlink {
+    font-size: 0.75rem;
+  }
+  .blank-canvas .mxgp-hero {
+    min-height: 68vh;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .blank-canvas .mxgp-newscard,
+  .blank-canvas .mxgp-productcard {
+    will-change: transform;
+  }
 }

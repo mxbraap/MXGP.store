@@ -47,18 +47,19 @@ export const blankDesign: DesignPack = {
   chrome: "light",
   premium: false,
   source: "design.md",
-  // Neutral grayscale mapped onto the sol-*/cw-* tokens: the do-nothing state
-  // is clean monochrome across all built-in surfaces. themeJson overrides win.
+  // MXGP racing palette mapped onto the cw-* tokens: the do-nothing state
+  // renders MXGP red/black/white across all built-in surfaces.
+  // themeJson overrides win.
   applyPaletteAsTheme: true,
   tokens: {
     prefix: "cw",
     palette: {
-      accent: "#171717",
-      accentDeep: "#000000",
+      accent: "#e10600",
+      accentDeep: "#7a0400",
       cream: "#ffffff",
-      sand: "#f5f5f5",
-      ink: "#171717",
-      muted: "#737373",
+      sand: "#f4f4f4",
+      ink: "#0a0a0a",
+      muted: "#6e6e6e",
     },
     fonts: {
       sans: "system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
@@ -66,6 +67,8 @@ export const blankDesign: DesignPack = {
     },
   },
   homepage: BlankHomepage,
+  // Full-bleed: the news hero owns the viewport width (no min-height box).
+  layout: { mainClassName: "" },
   // Control the engine's shared <main> wrapper (app/[locale]/layout.tsx wraps
   // every page body in <main className="min-h-[60vh]">). Unset = today's default.
   //   layout: { mainClassName: "" },         // full-bleed: no min-height

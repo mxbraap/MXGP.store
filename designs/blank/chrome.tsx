@@ -1,134 +1,111 @@
 /**
- * Blank Canvas — site-wide chrome (Header + Footer).
+ * MXGP.store — site-wide chrome (Header + Footer).
  *
- * ╔══════════════════════════════════════════════════════════════════════════╗
- * ║  YOURS TO REWRITE — TOTAL FREEDOM                                        ║
- * ╚══════════════════════════════════════════════════════════════════════════╝
- *
- * These two components ARE your site's header and footer on every page —
- * homepage, contact, info pages, and (in webshop mode) PLP/PDP/cart/checkout.
- * They are wired through `DesignPack.siteChrome` in designs/blank/index.ts,
- * which means app/[locale]/layout.tsx renders THEM instead of the shared
- * engine chrome whenever the `blank` design is active.
- *
- * Delete everything below and build your own. The only contract:
- *
- *   - Export two React components taking `DesignChromeProps` = `{ locale }`.
- *   - They render server-side (no "use client" needed unless you add
- *     interactivity — then split the interactive bit into its own client file).
- *   - Prefix internal links with `/${locale}` (e.g. `/${locale}/contact`),
- *     because every storefront route is locale-scoped.
- *
- * Everything else is up to you:
- *   - Styling: Tailwind utilities, the pack's own stylesheet (./blank.css —
- *     already imported below, scope rules under `.blank-canvas`), inline
- *     styles — anything. The engine's cw-* and sol-* design tokens are
- *     OPTIONAL here; the markup below is deliberately token-free so you
- *     start from a true blank.
- *   - Fonts: load any Google font with `next/font/google` at module scope
- *     (see designs/fable/chrome.tsx for a worked example with Fraunces).
- *   - Nav: hardcode links, or fetch pages/categories from the DB like the
- *     shared chrome does (see components/Header.tsx — it's a server
- *     component, `await prisma.page.findMany(...)` works right here).
- *
- * Useful data you can reach from a server component:
- *   - `brand` (brand.config.ts) — storeName, contact, footer copy, locales.
- *   - `prisma` (lib/db) — pages, categories, anything in the DB.
- *
- * Keep it accessible: a <header> with <nav aria-label>, a <footer>, real
- * links. Screen readers and SEO get those for free when the markup stays
- * semantic.
- *
- * Taste + built-ins: follow the taste rules in DESIGN.md §3 (full-bleed, one
- * display font via next/font, flawless 390px mobile) and check DESIGN.md §2
- * before installing anything — three.js (ThreeHero), the svg-items library
- * and the motion presets already ship. Verify with screenshots (DESIGN.md §4).
+ * Racing-inspired chrome: black header with red accents, condensed display
+ * font, Vietnamese navigation. Renders on every storefront page via
+ * DesignPack.siteChrome (designs/blank/index.ts).
  */
 import Link from "next/link";
+import { Archivo } from "next/font/google";
 import { brand } from "@/brand.config";
 import type { DesignChromeProps } from "../types";
-// The pack's stylesheet — yours to fill. Scope every rule under `.blank-canvas`
-// (the in-file guide in blank.css explains why). Imported here so it reaches
-// EVERY page this chrome wraps.
 import "./blank.css";
+
+const display = Archivo({
+  subsets: ["latin", "vietnamese"],
+  weight: ["700", "800", "900"],
+  style: ["normal", "italic"],
+});
+
+const NAV = [
+  { label: "Tin tức", href: "blog" },
+  { label: "Cửa hàng", href: "produkter" },
+  { label: "Giỏ hàng", href: "cart" },
+  { label: "Tài khoản", href: "account" },
+] as const;
 
 export function BlankHeader({ locale }: DesignChromeProps) {
   const home = `/${locale}`;
   return (
-    // Intentionally bare: a name and two links in the system font stack.
-    // This is scaffolding, not a design — replace it with yours.
-    <header style={{ borderBottom: "1px solid #e5e5e5" }}>
-      <nav
-        aria-label="Primary"
-        style={{
-          margin: "0 auto",
-          maxWidth: "72rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "1rem 1.25rem",
-          fontFamily:
-            "system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-        }}
-      >
-        <Link href={home} style={{ fontWeight: 600, color: "#171717", textDecoration: "none" }}>
-          {brand.storeName}
-        </Link>
-        <div style={{ display: "flex", gap: "1.5rem", fontSize: "0.875rem" }}>
-          <Link href={home} style={{ color: "#525252", textDecoration: "none" }}>
-            Home
+    <header className={`blank-canvas ${display.className}`}>
+      {/* Top red strip */}
+      <div aria-hidden className="mxgp-topstrip" />
+      <div className="mxgp-headerbar">
+        <nav aria-label="Primary" className="mxgp-nav">
+          <Link href={home} className="mxgp-logo" aria-label={brand.storeName}>
+            MXGP<span className="mxgp-logo-dot">.store</span>
           </Link>
-          <Link href={`${home}/contact`} style={{ color: "#525252", textDecoration: "none" }}>
-            Contact
-          </Link>
-        </div>
-      </nav>
+          <div className="mxgp-navlinks">
+            {NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={`${home}/${item.href}`}
+                className="mxgp-navlink"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        </nav>
+      </div>
     </header>
   );
 }
 
 export function BlankFooter({ locale }: DesignChromeProps) {
-  void locale; // prefix your links with `/${locale}` when you add some
+  const home = `/${locale}`;
   const year = new Date().getFullYear();
   return (
-    // Same deal as the header: one quiet line, zero opinions. Rewrite freely.
-    <footer style={{ borderTop: "1px solid #e5e5e5", marginTop: "4rem" }}>
-      <div
-        style={{
-          margin: "0 auto",
-          maxWidth: "72rem",
-          padding: "1.5rem 1.25rem",
-          fontSize: "0.75rem",
-          color: "#737373",
-          fontFamily:
-            "system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-        }}
-      >
-        © {year} {brand.storeName}
+    <footer className={`blank-canvas ${display.className}`}>
+      <div className="mxgp-footer">
+        <div className="mxgp-footer-grid">
+          <div>
+            <p className="mxgp-logo">
+              MXGP<span className="mxgp-logo-dot">.store</span>
+            </p>
+            <p className="mxgp-footer-blurb">
+              {brand.tagline || "Tin tức MXGP & cửa hàng chính hãng"}
+            </p>
+          </div>
+          <nav aria-label="Footer">
+            <p className="mxgp-footer-title">Khám phá</p>
+            <ul className="mxgp-footer-links">
+              <li>
+                <Link href={`${home}/blog`}>Tin tức</Link>
+              </li>
+              <li>
+                <Link href={`${home}/produkter`}>Cửa hàng</Link>
+              </li>
+              <li>
+                <Link href={`${home}/cart`}>Giỏ hàng</Link>
+              </li>
+              <li>
+                <Link href={`${home}/account`}>Tài khoản</Link>
+              </li>
+            </ul>
+          </nav>
+          <nav aria-label="Legal">
+            <p className="mxgp-footer-title">Thông tin</p>
+            <ul className="mxgp-footer-links">
+              <li>
+                <Link href={`${home}/info/fragt`}>Vận chuyển</Link>
+              </li>
+              <li>
+                <Link href={`${home}/info/returnering`}>Đổi trả</Link>
+              </li>
+              <li>
+                <Link href={`${home}/privacy`}>Bảo mật</Link>
+              </li>
+              <li>
+                <Link href={`${home}/contact`}>Liên hệ</Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div className="mxgp-footer-bottom">
+          © {year} {brand.storeName} — All rights reserved.
+        </div>
       </div>
     </footer>
   );
 }
-
-/*
- * OPTIONAL — a Shell, for full control of the page frame.
- *
- * `siteChrome.Shell` wraps ALL page content (header + body + footer) on EVERY
- * page. Use it to apply your root class + next/font variables ONCE (so the whole
- * site is themed, not just the homepage), or to own the page frame for a
- * full-bleed / fullscreen design. This is the escape hatch Gemini-style "I need
- * to edit app/layout.tsx" attempts are really looking for — you DON'T touch the
- * engine's layout files; you provide this instead. Pair it with the pack's
- * `layout` field (designs/blank/index.ts) to control the engine's <main>:
- *   - layout: { mainClassName: "" }  → full-bleed (no min-height)
- *   - layout: { ownsMain: true }     → render your own <main> IN THE SHELL, so
- *     every page (not just the homepage) keeps the landmark — see designs/drive
- *
- * To activate: uncomment, then in designs/blank/index.ts set
- *   siteChrome: { Shell: BlankShell, Header: BlankHeader, Footer: BlankFooter }
- *
- * export function BlankShell({ children, locale }: { children: ReactNode; locale: string }) {
- *   void locale;
- *   return <div className="blank-canvas">{children}</div>;
- * }
- */

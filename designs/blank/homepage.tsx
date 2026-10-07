@@ -1,162 +1,233 @@
 /**
- * Blank Canvas — homepage.
+ * MXGP.store — news-first homepage (mxgp.com style).
  *
- * ╔══════════════════════════════════════════════════════════════════════════╗
- * ║  THIS CANVAS IS INTENTIONALLY BLANK. BUILD ANYTHING.                     ║
- * ╚══════════════════════════════════════════════════════════════════════════╝
+ * Layout:
+ *   1. Hero — latest published post, full-bleed with cover image
+ *   2. News grid — the next latest posts
+ *   3. Featured products — "Shop the news" merch row (webshop mode)
+ *   4. Red CTA band — link into the shop
  *
- * This file is the entire homepage when the `blank` design is active. It is
- * a React Server Component (no "use client") — delete the placeholder markup
- * at the bottom and build a completely unique page. The rest of this comment
- * is the build-anything guide.
- *
- * ── What you receive (DesignHomepageProps, designs/types.ts) ───────────────
- *
- *   settings   BrandingSettings | null — the admin's DB overrides. The copy
- *              chain convention (see designs/aurora-site/homepage.tsx):
- *                const headline =
- *                  settings?.websiteHeadline || genome?.hero.headline || brand.website.headline;
- *              i.e. admin override ?? Voice/genome copy ?? brand.config anchor.
- *              You may also ignore all of it and hardcode your own copy.
- *   locale     "da" | "en" | … — prefix EVERY internal link with `/${locale}`.
- *   featured   DesignProduct[] (webshop mode) — featured products incl. a
- *              computed `imageUrl`. Link each to `/${locale}/produkter/${slug}`.
- *   categories Category[] (webshop mode) — link to `/${locale}/kategori/${slug}`.
- *   threeD     resolved Live Canvas config — when `threeD?.enabled`, you can
- *              render `<ThreeHero scene={threeD.scene} intensity={threeD.intensity} />`
- *              (components/ThreeHero.tsx) behind your hero. Optional.
- *   genome     Voice/genome-resolved copy (only when brand.features.genomeResolve
- *              is on) — see HomeGenomeCopy in designs/types.ts.
- *   editEnabled  in-place admin copy editing — safe to ignore on a bespoke page.
- *              To OPT IN: make any element click-to-editable by spreading
- *              editAttr (components/annotate/editAttr) with the target the
- *              copy chain reads from:
- *                import { editAttr } from "@/components/annotate/editAttr";
- *                <h1 {...editAttr({ kind: "setting", field: "websiteHeadline" }, editEnabled)}>
- *                  {headline}
- *                </h1>
- *              Targets: setting (websiteHeadline|tagline), genome keys
- *              (lib/genome/fields.ts — gate those on `editEnabled && genome`),
- *              page/product/category/service fields incl. direct price editing
- *              ({ kind: "product"|"service", slug, field: "price" }). When
- *              editEnabled is false, editAttr returns {} — render-inert.
- *
- * ── Adding sections / files ────────────────────────────────────────────────
- *
- *   Put extra components in this folder (designs/blank/sections/*.tsx) and
- *   import them here. Server components by default; add "use client" only to
- *   leaf components that need state/effects. The pack's stylesheet
- *   (./blank.css) is ALREADY imported below — write CSS there, scoped under
- *   `.blank-canvas` (its in-file guide explains the convention). Prefer
- *   guaranteed isolation with zero discipline? Next.js scopes any `*.module.css`
- *   automatically — name a file `blank.module.css`, `import styles from
- *   "./blank.module.css"`, and use `className={styles.hero}`; nothing can leak
- *   and you skip the `.blank-canvas` prefix entirely. A richer
- *   opt-in starter (display-font hookup, section rhythm vars, dark-band
- *   utility) ships at examples/blank.css.example — copy what you need in.
- *
- *   Want a head start instead of bare? Copy any mixable pack (e.g.
- *   designs/ember) over these files and rewrite from there.
- *
- *   Hero imagery: put your source image at public/brand-hero.png (or any
- *   path under public/) and reference it — the first image makes or breaks
- *   a premium page.
- *
- * ── Styling: tokens are OPTIONAL here ──────────────────────────────────────
- *
- *   The engine's palette tokens (--color-sol-*, --color-cw-*) exist on every
- *   page, and because this pack sets `applyPaletteAsTheme: true` with a
- *   neutral grayscale palette, all the BUILT-IN surfaces (cart, checkout,
- *   account, admin-adjacent pages) render in clean monochrome until you (or
- *   the shop's themeJson palette) say otherwise. Your own markup does NOT
- *   have to use them — plain CSS/Tailwind colors are fine. If you want the
- *   shop's palette to flow into your design, read the tokens
- *   (e.g. `text-[var(--color-sol-accent)]` or `bg-cw-paper`).
- *
- * ── How your design reaches every page ─────────────────────────────────────
- *
- *   designs/blank/index.ts registers `siteChrome: { Header, Footer }`
- *   (designs/blank/chrome.tsx) — those render on EVERY storefront page. For
- *   per-page-type templates, add to the pack registration:
- *     pages:   { contact, info, notFound }          — own those pages' bodies
- *     webshop: { productCard, pdpLayout, categoryLayout } — own the shop look
- *   Contracts in designs/types.ts (DesignPages / WebshopOverrides).
- *
- * ── The page wrapper (full-bleed / fullscreen / non-scroll) ────────────────
- *
- *   The engine wraps THIS output in `<main className="min-h-[60vh]">` (the seam
- *   is app/[locale]/layout.tsx). So: render <section>/<div> here, never your own
- *   <main> — two <main> landmarks is an a11y bug. Three ways to control that
- *   wrapper from designs/blank/index.ts, all via the optional `layout` field
- *   (DesignPack.layout, designs/types.ts) — unset keeps today's behaviour:
- *     • Full-bleed (kill the min-height):   layout: { mainClassName: "" }
- *     • Fullscreen hero:                    layout: { mainClassName: "min-h-screen" }
- *     • Own the <main> yourself:            layout: { ownsMain: true }
- *       → the engine renders NO <main> on ANY page; YOU render exactly one.
- *         Put it in the Shell (not the homepage) so content pages keep the
- *         landmark too — see designs/drive (Shell renders
- *         <main className="drv__wrap"> around every page).
- *   A truly NON-SCROLLABLE page is a body-level concern (overflow), not a design
- *   token — do it from a Shell with a tiny client component that toggles a class
- *   on document.documentElement in a useEffect and removes it on cleanup. Most
- *   sites should scroll; reach for this only for a deliberate single-screen app.
- *
- * ── What keeps working for free ────────────────────────────────────────────
- *
- *   Database + Prisma, cart + checkout + Stripe, auth + account, the whole
- *   /admin, the AI tool surface (/api/v1/tools), JSON-LD structured data,
- *   sitemap/robots/llms.txt, i18n routing. You are ONLY painting the front.
- *
- * ── Taste rules (DESIGN.md §3 has the full list — these are hard rules) ────
- *
- *   - Full-bleed hero — never a boxed banner inside a centered column.
- *   - Generous whitespace (think py-24/py-32) + asymmetric sections.
- *   - One display font via next/font; edge-to-edge dark contrast bands.
- *   - Flawless mobile at 390px — screenshot 1440px AND 390px, LOOK at both,
- *     iterate until stunning (DESIGN.md §4).
- *   Built-ins you should reach for before installing anything: ThreeHero
- *   (9 palette-reactive scenes — three.js ALREADY ships), the svg-items
- *   library, motion presets, the GSAP recipe — all in DESIGN.md §2. The
- *   verified SSR-safe GSAP wrapper ships ready-made at
- *   examples/GsapMotion.tsx.example — rename to .tsx after `pnpm add gsap`.
- *   Need a typed-terminal / code hero? Copy the CSS-only pattern from
- *   designs/stack (markup) + themes/studio.css (.cw-typed-line/.cw-caret) —
- *   reduced-motion-safe, no JS timeouts. Don't hand-roll a terminal simulator.
- *
- * ── Two reminders ──────────────────────────────────────────────────────────
- *
- *   - Reduced motion: wrap any animation in
- *     `@media (prefers-reduced-motion: no-preference)` (CSS) or a
- *     `matchMedia` guard (JS). Content must be visible without motion.
- *   - A11y: one <h1> per page, semantic landmarks, alt text on images,
- *     visible :focus-visible outlines. Bare ≠ inaccessible.
+ * React Server Component. Internal links are prefixed with `/${locale}`.
+ * The engine wraps this in <main>, so we render <div>/<section> only.
  */
+import Link from "next/link";
+import { Archivo } from "next/font/google";
+import { prisma } from "@/lib/db";
 import { brand } from "@/brand.config";
-import type { DesignHomepageProps } from "../types";
-// The pack's stylesheet — yours to fill (scope rules under `.blank-canvas`).
+import { formatPrice } from "@/lib/format";
+import type { DesignHomepageProps, DesignProduct } from "../types";
 import "./blank.css";
 
-export default function BlankHomepage({ settings }: DesignHomepageProps) {
-  // Placeholder page — storeName + one muted line. Replace everything in
-  // this return (and the props you destructure) with your own design.
-  // NOTE: the engine already wraps this output in `<main className="min-h-[60vh]">`
-  // (see "── The page wrapper" above), so render <section>/<div> here, NOT a
-  // second <main> — two <main> landmarks is an a11y bug.
-  const storeName = settings?.storeName || brand.storeName;
+const display = Archivo({
+  subsets: ["latin", "vietnamese"],
+  weight: ["700", "800", "900"],
+  style: ["normal", "italic"],
+});
+
+function formatDate(d: Date | null | undefined): string {
+  if (!d) return "";
+  try {
+    return new Intl.DateTimeFormat("vi-VN", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    }).format(d);
+  } catch {
+    return "";
+  }
+}
+
+function productImage(p: DesignProduct): string | null {
+  if (p.imageUrl) return p.imageUrl;
+  try {
+    const arr = JSON.parse(p.images) as unknown;
+    if (Array.isArray(arr) && typeof arr[0] === "string" && arr[0]) return arr[0];
+  } catch {
+    /* malformed images JSON → no image, never a fabricated fallback */
+  }
+  return null;
+}
+
+export default async function MxgpHomepage({
+  locale,
+  featured,
+}: DesignHomepageProps) {
+  const posts = await prisma.post.findMany({
+    where: { status: "published" },
+    orderBy: { publishedAt: "desc" },
+    take: 7,
+    select: {
+      slug: true,
+      title: true,
+      excerpt: true,
+      coverImage: true,
+      author: true,
+      publishedAt: true,
+    },
+  });
+
+  const [heroPost, ...restPosts] = posts;
+  const products = (featured ?? []).slice(0, 4);
+
   return (
-    <section
-      style={{
-        margin: "0 auto",
-        maxWidth: "72rem",
-        padding: "6rem 1.25rem",
-        fontFamily:
-          "system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-      }}
-    >
-      <h1 style={{ fontSize: "2rem", fontWeight: 600, color: "#171717" }}>{storeName}</h1>
-      <p style={{ marginTop: "0.75rem", color: "#737373" }}>
-        This canvas is intentionally blank. Build anything.
-      </p>
-    </section>
+    <div className={`blank-canvas ${display.className}`}>
+      {/* ── 1. HERO — latest news ─────────────────────────────────── */}
+      {heroPost ? (
+        <section className="mxgp-hero" aria-label="Tin nổi bật">
+          {heroPost.coverImage && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={heroPost.coverImage}
+              alt=""
+              aria-hidden
+              className="mxgp-hero-bg"
+            />
+          )}
+          <div className="mxgp-hero-shade" aria-hidden />
+          <div className="mxgp-hero-inner">
+            <p className="mxgp-kicker">Tin nổi bật</p>
+            <h1 className="mxgp-hero-title">{heroPost.title}</h1>
+            {heroPost.excerpt && (
+              <p className="mxgp-hero-excerpt">{heroPost.excerpt}</p>
+            )}
+            <div className="mxgp-hero-meta">
+              {heroPost.author && <span>{heroPost.author}</span>}
+              {heroPost.publishedAt && (
+                <time>{formatDate(heroPost.publishedAt)}</time>
+              )}
+            </div>
+            <Link
+              href={`/${locale}/blog/${heroPost.slug}`}
+              className="mxgp-btn"
+            >
+              Đọc bài viết
+            </Link>
+          </div>
+        </section>
+      ) : (
+        <section className="mxgp-hero mxgp-hero-empty" aria-label="Chào mừng">
+          <div className="mxgp-hero-inner">
+            <p className="mxgp-kicker">{brand.storeName}</p>
+            <h1 className="mxgp-hero-title">
+              Tin tức MXGP mới nhất, mỗi ngày
+            </h1>
+            <p className="mxgp-hero-excerpt">
+              {brand.tagline || "Tin tức MXGP & cửa hàng chính hãng"}
+            </p>
+          </div>
+        </section>
+      )}
+
+      {/* ── 2. NEWS GRID ──────────────────────────────────────────── */}
+      <section className="mxgp-section" aria-label="Tin mới nhất">
+        <div className="mxgp-section-head">
+          <h2 className="mxgp-section-title">Tin mới nhất</h2>
+          <Link href={`/${locale}/blog`} className="mxgp-section-link">
+            Xem tất cả →
+          </Link>
+        </div>
+        {restPosts.length > 0 ? (
+          <div className="mxgp-newsgrid">
+            {restPosts.map((post) => (
+              <Link
+                key={post.slug}
+                href={`/${locale}/blog/${post.slug}`}
+                className="mxgp-newscard"
+              >
+                {post.coverImage ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={post.coverImage}
+                    alt=""
+                    aria-hidden
+                    className="mxgp-newscard-img"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div
+                    className="mxgp-newscard-img mxgp-newscard-img-empty"
+                    aria-hidden
+                  />
+                )}
+                <div className="mxgp-newscard-body">
+                  {post.publishedAt && (
+                    <time className="mxgp-newscard-date">
+                      {formatDate(post.publishedAt)}
+                    </time>
+                  )}
+                  <h3 className="mxgp-newscard-title">{post.title}</h3>
+                  {post.excerpt && (
+                    <p className="mxgp-newscard-excerpt">{post.excerpt}</p>
+                  )}
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <p className="mxgp-empty">
+            Chưa có bài viết nào. Đăng bài đầu tiên trong trang quản trị /admin.
+          </p>
+        )}
+      </section>
+
+      {/* ── 3. FEATURED PRODUCTS ──────────────────────────────────── */}
+      {products.length > 0 && (
+        <section
+          className="mxgp-section mxgp-section-alt"
+          aria-label="Sản phẩm nổi bật"
+        >
+          <div className="mxgp-section-head">
+            <h2 className="mxgp-section-title">Sản phẩm nổi bật</h2>
+            <Link href={`/${locale}/produkter`} className="mxgp-section-link">
+              Vào cửa hàng →
+            </Link>
+          </div>
+          <div className="mxgp-productgrid">
+            {products.map((p) => {
+              const img = productImage(p);
+              return (
+                <Link
+                  key={p.id}
+                  href={`/${locale}/produkter/${p.slug}`}
+                  className="mxgp-productcard"
+                >
+                  {img ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={img}
+                      alt={p.name}
+                      className="mxgp-productcard-img"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div
+                      className="mxgp-productcard-img mxgp-productcard-img-empty"
+                      aria-hidden
+                    />
+                  )}
+                  <div className="mxgp-productcard-body">
+                    <h3 className="mxgp-productcard-name">{p.name}</h3>
+                    <p className="mxgp-productcard-price">
+                      {formatPrice(p.priceDkk)}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {/* ── 4. CTA BAND ───────────────────────────────────────────── */}
+      <section className="mxgp-cta" aria-label="Mua sắm">
+        <h2 className="mxgp-cta-title">Đồ MXGP chính hãng</h2>
+        <p className="mxgp-cta-text">
+          Áo, mũ và phụ kiện từ thế giới Motocross Grand Prix.
+        </p>
+        <Link href={`/${locale}/produkter`} className="mxgp-btn mxgp-btn-light">
+          Mua sắm ngay
+        </Link>
+      </section>
+    </div>
   );
 }

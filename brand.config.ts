@@ -36,7 +36,7 @@ export const brand = {
    * Leave undefined to infer the flagship default (Aurora). Browse packs in
    * /admin/designs or on cartwright.app. Example: designSlug: "engineered".
    */
-  designSlug: undefined as string | undefined,
+  designSlug: "blank" as string | undefined,
 
   /**
    * Top-level mode: hvilken slags shop er dette? Drives også af industry-templates,
