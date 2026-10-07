@@ -33,12 +33,7 @@ export function BlankHeader({ locale }: DesignChromeProps) {
       <div className="mxgp-headerbar">
         <nav aria-label="Primary" className="mxgp-nav">
           <Link href={home} className="mxgp-logo" aria-label={brand.storeName}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/mxgp-store-logo.png"
-              alt="MXGP.store"
-              className="mxgp-logo-img"
-            />
+            MXGP<span className="mxgp-logo-dot">.store</span>
           </Link>
           <div className="mxgp-navlinks">
             {NAV.map((item) => (
@@ -65,12 +60,9 @@ export function BlankFooter({ locale }: DesignChromeProps) {
       <div className="mxgp-footer">
         <div className="mxgp-footer-grid">
           <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/mxgp-store-logo.png"
-              alt="MXGP.store"
-              className="mxgp-logo-img"
-            />
+            <p className="mxgp-logo">
+              MXGP<span className="mxgp-logo-dot">.store</span>
+            </p>
             <p className="mxgp-footer-blurb">
               {brand.tagline || "Tin tức MXGP & cửa hàng chính hãng"}
             </p>
