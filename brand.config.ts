@@ -12,11 +12,11 @@ import type { SceneId } from "@/lib/three/scene-ids";
 
 export const brand = {
   // ─── Identity ────────────────────────────────────────────────────────────
-  storeName: "Cartwright",
-  storeSlug: "cartwright",
-  domain: "cartwright.app",
-  url: "https://cartwright.app",
-  tagline: "The AI-first site & commerce engine",
+  storeName: "MXGP.store",
+  storeSlug: "mxgp-store",
+  domain: "mxgp.store",
+  url: "https://mxgp.store",
+  tagline: "Tin tức MXGP & cửa hàng chính hãng",
   /**
    * Vælger seed-data-template (industry-templates/<slug>/).
    * Cartwright shipper "generic", "website-corporate", "coffee", "sunglasses",
@@ -26,7 +26,7 @@ export const brand = {
    * eksisterende deploy (med BrandingSettings.industryTemplate = "saas") fortsat
    * fungerer. Nye forks bør bruge "website-corporate" eksplicit.
    */
-  industryTemplate: "saas",
+  industryTemplate: "generic",
 
   /**
    * Optional explicit design pack (the visual homepage design). This is the
@@ -49,7 +49,7 @@ export const brand = {
    * Hybrid (fx webshop + agent-marketplace endpoints) opnås via additive
    * features.* flags nedenfor.
    */
-  mode: "website" as "website" | "webshop" | "agent-marketplace",
+  mode: "webshop" as "website" | "webshop" | "agent-marketplace",
 
   /**
    * Who owns this site's identity (storeName + ecommerceEnabled): this file, or
@@ -185,7 +185,7 @@ export const brand = {
      * + add-to-cart UI. Skal matche brand.mode === "webshop" (eller hybrid).
      * Speciler brand.ecommerceEnabled på sigt.
      */
-    webshop: false,
+    webshop: true,
     /**
      * Aktivér Agentic Commerce Protocol checkout-endpoints
      * (/api/acp/v1/checkout_sessions/*, /api/acp/feed). Mirror af acp.enabled
@@ -235,7 +235,7 @@ export const brand = {
      */
     webMcp: false,
     /** Vis Cartwright referral-mærke i footeren */
-    cartwrightBadge: true,
+    cartwrightBadge: false,
     /** First-visit welcome modal on the storefront (points new owners at /admin) */
     welcomeGuide: true,
     /**
@@ -538,7 +538,7 @@ export const brand = {
      * Koden shipper altid; flaget gater rendering (notFound når off), så
      * runtime-toggleable.
      */
-    blog: false,
+    blog: true,
 
     /**
      * Stripe Tax — managed multi-country momsberegning (EU OSS, VAT-ID-validering).

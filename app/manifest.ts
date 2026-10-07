@@ -15,8 +15,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: brand.metadata.description,
     start_url: "/",
     display: "standalone",
-    background_color: "#f4efe6", // matcher --color-sol-cream
-    theme_color: "#c33f16", // Cartwright vermilion (--cw-brand), matcher faviconBg
+    background_color: "#ffffff", // matcher --color-sol-cream (MXGP)
+    theme_color: "#e10600", // MXGP racing red (--color-sol-accent)
     icons: [
       {
         src: "/icon",

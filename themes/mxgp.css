@@ -1,0 +1,98 @@
+/**
+ * MXGP.STORE THEME — racing red / black / white.
+ *
+ * Forked from themes/generic.css per FORK_GUIDE.md. Token NAMES (--color-sol-*)
+ * are kept as-is (renaming would require refactoring 1000+ className
+ * references). "sol" reads as "primary brand color" here.
+ */
+
+@theme {
+  --color-sol-accent: #e10600;   /* MXGP racing red — primary CTA/price/accent */
+  --color-sol-sun: #ededed;      /* neutral light gray — tint/placeholders */
+  --color-sol-cream: #ffffff;    /* pure white — page background */
+  --color-sol-ink: #0a0a0a;      /* near-black — body text */
+  --color-sol-muted: #6e6e6e;    /* neutral gray — secondary text */
+  --color-sol-sand: #f4f4f4;     /* light gray — card/panel background */
+
+  /* Red scale extends the accent — footer + dark sections
+     and hover states on CTAs. */
+  --color-sol-accent-deep: #7a0400;
+  --color-sol-accent-dark: #a80500;
+  --color-sol-accent-light: #f93a2b;
+
+  /* Glass-tokens (RGBA — critical for backdrop-blur). */
+  --color-sol-glass-light: rgba(255, 255, 255, 0.55);
+  --color-sol-glass-light-strong: rgba(255, 255, 255, 0.78);
+  --color-sol-glass-dark: rgba(10, 10, 10, 0.55);
+  --color-sol-glass-tint: rgba(225, 6, 0, 0.08);
+  --color-sol-glass-border: rgba(255, 255, 255, 0.18);
+  --color-sol-glass-border-dark: rgba(10, 10, 10, 0.12);
+
+  /* Layered shadow scale — black-tinted to match the palette. */
+  --shadow-sol-soft: 0 1px 2px rgba(10, 10, 10, 0.04), 0 2px 8px rgba(10, 10, 10, 0.06);
+  --shadow-sol-card: 0 2px 4px rgba(10, 10, 10, 0.05), 0 12px 24px rgba(10, 10, 10, 0.08);
+  --shadow-sol-lift: 0 8px 16px rgba(10, 10, 10, 0.10), 0 24px 48px rgba(10, 10, 10, 0.14);
+  --shadow-sol-glass: 0 8px 32px rgba(10, 10, 10, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+
+  /* Radius system. */
+  --radius-sol-md: 12px;
+  --radius-sol-lg: 20px;
+  --radius-sol-xl: 28px;
+
+  /* Hero-overlay token — matches the central alpha-stop in the hero
+     vignette-gradient. */
+  --color-sol-overlay-hero: rgba(10, 10, 10, 0.55);
+
+  /* Glass-light variant — bg-white/15 over dark surfaces (e.g. hero video). */
+  --color-sol-glass-ethereal: rgba(255, 255, 255, 0.15);
+
+  --font-weight-black: 900;
+  --radius-pill: 9999px;
+  /* shadow-color tokens mirror color-tokens so Tailwind v4's
+     opacity-modifier syntax (`shadow-sol-accent/20`) works. */
+  --shadow-color-sol-accent: #e10600;
+  --shadow-color-sol-accent-deep: #7a0400;
+}
+
+/* 🌙 DARK MODE OVERRIDES */
+:root.dark {
+  --color-sol-cream: #0a0a0a;
+  --color-sol-ink: #ffffff;
+  --color-sol-muted: rgba(255, 255, 255, 0.5);
+  --color-sol-sand: #111111;
+  --color-sol-sun: #27272a;
+
+  /* Dark-mode accent: lighten the racing red so accent text stays readable
+     on dark card/page backgrounds. White text on bg-sol-accent buttons
+     keeps strong contrast. */
+  --color-sol-accent: #ff4d42;
+
+  /* Pure black sidebar in dark mode */
+  --color-sol-accent-deep: #000000;
+
+  --color-sol-glass-light: rgba(0, 0, 0, 0.55);
+  --color-sol-glass-light-strong: rgba(0, 0, 0, 0.8);
+  --color-sol-glass-border-dark: rgba(255, 255, 255, 0.1);
+  --color-sol-glass-border: rgba(255, 255, 255, 0.1);
+
+  --shadow-sol-soft: 0 1px 2px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.5);
+  --shadow-sol-card: 0 2px 4px rgba(0,0,0,0.5), 0 12px 24px rgba(0,0,0,0.5);
+  --shadow-sol-lift: 0 8px 16px rgba(0,0,0,0.6), 0 24px 48px rgba(0,0,0,0.6);
+}
+
+/* @utility-presets for consistent card look. */
+@utility sol-card-base {
+  border-radius: var(--radius-sol-lg);
+  background: var(--color-sol-cream);
+  border: 1px solid var(--color-sol-glass-border-dark);
+  box-shadow: var(--shadow-sol-soft);
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out, border-color 200ms ease-out;
+}
+
+@utility sol-card-elevated {
+  border-radius: var(--radius-sol-lg);
+  background: var(--color-sol-sand);
+  border: 1px solid var(--color-sol-glass-border-dark);
+  box-shadow: var(--shadow-sol-card);
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out, border-color 200ms ease-out;
+}

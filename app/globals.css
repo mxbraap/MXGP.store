@@ -100,7 +100,7 @@
 /* Brand-specifik palette + glass-presets — lever i themes/<slug>.css.
    Ved fork: kopiér themes/generic.css til themes/<din-slug>.css, redigér
    tokens, opdatér denne import. Se FORK_GUIDE.md. */
-@import "../themes/generic.css";
+@import "../themes/mxgp.css";
 
 /* Admin-skin — scoped sol-token-override (`[data-admin-skin]`) der giver
    admin-backenden et lyst Polaris-look UDEN at røre storefront/canaries.
