@@ -26,7 +26,7 @@ export const brand = {
    * eksisterende deploy (med BrandingSettings.industryTemplate = "saas") fortsat
    * fungerer. Nye forks bør bruge "website-corporate" eksplicit.
    */
-  industryTemplate: "generic",
+  industryTemplate: "generic" as string,
 
   /**
    * Optional explicit design pack (the visual homepage design). This is the
