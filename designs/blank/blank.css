@@ -30,6 +30,11 @@
   justify-content: space-between;
   padding: 1rem 1.25rem;
 }
+.blank-canvas .mxgp-logo-img {
+  height: 40px;
+  width: auto;
+  display: block;
+}
 .blank-canvas .mxgp-logo {
   font-weight: 900;
   font-style: italic;

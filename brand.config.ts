@@ -96,8 +96,8 @@ export const brand = {
    * kun redigerer her for at tilføje fx tysk: ["da", "en", "de"]. Et enkelt
    * element ⇒ single-locale shop (hreflang slås automatisk fra).
    */
-  locales: ["da", "en"] as const,
-  defaultLocale: "da",
+  locales: ["en"] as const,
+  defaultLocale: "en",
 
   // ─── Contact ─────────────────────────────────────────────────────────────
   emails: {
@@ -139,7 +139,7 @@ export const brand = {
       "M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
     ],
     /** Favicon (app/icon.tsx): baggrunds-rektangel — Cartwright vermilion */
-    faviconBg: "#c33f16",
+    faviconBg: "#e10600",
     /** Favicon (app/icon.tsx): mærke-farve */
     faviconFg: "#ffffff",
   },
