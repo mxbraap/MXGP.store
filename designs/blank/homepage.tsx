@@ -52,19 +52,32 @@ export default async function MxgpHomepage({
   locale,
   featured,
 }: DesignHomepageProps) {
-  const posts = await prisma.post.findMany({
-    where: { status: "published" },
-    orderBy: { publishedAt: "desc" },
-    take: 7,
-    select: {
-      slug: true,
-      title: true,
-      excerpt: true,
-      coverImage: true,
-      author: true,
-      publishedAt: true,
-    },
-  });
+  // DB errors must not 500 the homepage — render empty news sections instead.
+  let posts: {
+    slug: string;
+    title: string;
+    excerpt: string | null;
+    coverImage: string | null;
+    author: string | null;
+    publishedAt: Date | null;
+  }[] = [];
+  try {
+    posts = await prisma.post.findMany({
+      where: { status: "published" },
+      orderBy: { publishedAt: "desc" },
+      take: 7,
+      select: {
+        slug: true,
+        title: true,
+        excerpt: true,
+        coverImage: true,
+        author: true,
+        publishedAt: true,
+      },
+    });
+  } catch {
+    /* database unreachable — page renders with empty news sections */
+  }
 
   const [heroPost, ...restPosts] = posts;
   const products = (featured ?? []).slice(0, 4);
