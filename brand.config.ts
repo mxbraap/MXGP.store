@@ -113,9 +113,9 @@ export const brand = {
 
   // ─── SEO / metadata ──────────────────────────────────────────────────────
   metadata: {
-    title: "Cartwright",
+    title: "MXGP.store",
     description:
-      "The build engine AIs reach for — a real site with design, database and backend, live in minutes.",
+      "MXGP news, race coverage and official merchandise.",
     /** Open Graph + Twitter card image */
     socialImageUrl: "/og-image.png",
   },
