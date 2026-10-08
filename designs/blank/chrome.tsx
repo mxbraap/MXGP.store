@@ -18,10 +18,10 @@ const display = Archivo({
 });
 
 const NAV = [
-  { label: "Tin tức", href: "blog" },
-  { label: "Cửa hàng", href: "produkter" },
-  { label: "Giỏ hàng", href: "cart" },
-  { label: "Tài khoản", href: "account" },
+  { label: "News", href: "blog" },
+  { label: "Shop", href: "produkter" },
+  { label: "Cart", href: "cart" },
+  { label: "Account", href: "account" },
 ] as const;
 
 export function BlankHeader({ locale }: DesignChromeProps) {
@@ -72,40 +72,40 @@ export function BlankFooter({ locale }: DesignChromeProps) {
               className="mxgp-logo-img"
             />
             <p className="mxgp-footer-blurb">
-              {brand.tagline || "Tin tức MXGP & cửa hàng chính hãng"}
+              {brand.tagline || "MXGP news & official store"}
             </p>
           </div>
           <nav aria-label="Footer">
-            <p className="mxgp-footer-title">Khám phá</p>
+            <p className="mxgp-footer-title">Explore</p>
             <ul className="mxgp-footer-links">
               <li>
-                <Link href={`${home}/blog`}>Tin tức</Link>
+                <Link href={`${home}/blog`}>News</Link>
               </li>
               <li>
-                <Link href={`${home}/produkter`}>Cửa hàng</Link>
+                <Link href={`${home}/produkter`}>Shop</Link>
               </li>
               <li>
-                <Link href={`${home}/cart`}>Giỏ hàng</Link>
+                <Link href={`${home}/cart`}>Cart</Link>
               </li>
               <li>
-                <Link href={`${home}/account`}>Tài khoản</Link>
+                <Link href={`${home}/account`}>Account</Link>
               </li>
             </ul>
           </nav>
           <nav aria-label="Legal">
-            <p className="mxgp-footer-title">Thông tin</p>
+            <p className="mxgp-footer-title">Information</p>
             <ul className="mxgp-footer-links">
               <li>
-                <Link href={`${home}/info/fragt`}>Vận chuyển</Link>
+                <Link href={`${home}/info/fragt`}>Shipping</Link>
               </li>
               <li>
-                <Link href={`${home}/info/returnering`}>Đổi trả</Link>
+                <Link href={`${home}/info/returnering`}>Returns</Link>
               </li>
               <li>
-                <Link href={`${home}/privacy`}>Bảo mật</Link>
+                <Link href={`${home}/privacy`}>Privacy</Link>
               </li>
               <li>
-                <Link href={`${home}/contact`}>Liên hệ</Link>
+                <Link href={`${home}/contact`}>Contact</Link>
               </li>
             </ul>
           </nav>

@@ -16,7 +16,7 @@ export const brand = {
   storeSlug: "mxgp-store",
   domain: "mxgp.store",
   url: "https://mxgp.store",
-  tagline: "Tin tức MXGP & cửa hàng chính hãng",
+  tagline: "MXGP news & official store",
   /**
    * Vælger seed-data-template (industry-templates/<slug>/).
    * Cartwright shipper "generic", "website-corporate", "coffee", "sunglasses",

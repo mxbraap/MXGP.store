@@ -27,7 +27,7 @@ const display = Archivo({
 function formatDate(d: Date | null | undefined): string {
   if (!d) return "";
   try {
-    return new Intl.DateTimeFormat("vi-VN", {
+    return new Intl.DateTimeFormat("en-US", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
@@ -86,7 +86,7 @@ export default async function MxgpHomepage({
     <div className={`blank-canvas ${display.className}`}>
       {/* ── 1. HERO — latest news ─────────────────────────────────── */}
       {heroPost ? (
-        <section className="mxgp-hero" aria-label="Tin nổi bật">
+        <section className="mxgp-hero" aria-label="Featured">
           {heroPost.coverImage && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -98,7 +98,7 @@ export default async function MxgpHomepage({
           )}
           <div className="mxgp-hero-shade" aria-hidden />
           <div className="mxgp-hero-inner">
-            <p className="mxgp-kicker">Tin nổi bật</p>
+            <p className="mxgp-kicker">Featured</p>
             <h1 className="mxgp-hero-title">{heroPost.title}</h1>
             {heroPost.excerpt && (
               <p className="mxgp-hero-excerpt">{heroPost.excerpt}</p>
@@ -113,30 +113,30 @@ export default async function MxgpHomepage({
               href={`/${locale}/blog/${heroPost.slug}`}
               className="mxgp-btn"
             >
-              Đọc bài viết
+              Read article
             </Link>
           </div>
         </section>
       ) : (
-        <section className="mxgp-hero mxgp-hero-empty" aria-label="Chào mừng">
+        <section className="mxgp-hero mxgp-hero-empty" aria-label="Welcome">
           <div className="mxgp-hero-inner">
             <p className="mxgp-kicker">{brand.storeName}</p>
             <h1 className="mxgp-hero-title">
-              Tin tức MXGP mới nhất, mỗi ngày
+              Latest MXGP news, every day
             </h1>
             <p className="mxgp-hero-excerpt">
-              {brand.tagline || "Tin tức MXGP & cửa hàng chính hãng"}
+              {brand.tagline || "MXGP news & official store"}
             </p>
           </div>
         </section>
       )}
 
       {/* ── 2. NEWS GRID ──────────────────────────────────────────── */}
-      <section className="mxgp-section" aria-label="Tin mới nhất">
+      <section className="mxgp-section" aria-label="Latest news">
         <div className="mxgp-section-head">
-          <h2 className="mxgp-section-title">Tin mới nhất</h2>
+          <h2 className="mxgp-section-title">Latest news</h2>
           <Link href={`/${locale}/blog`} className="mxgp-section-link">
-            Xem tất cả →
+            View all →
           </Link>
         </div>
         {restPosts.length > 0 ? (
@@ -178,7 +178,7 @@ export default async function MxgpHomepage({
           </div>
         ) : (
           <p className="mxgp-empty">
-            Chưa có bài viết nào. Đăng bài đầu tiên trong trang quản trị /admin.
+            No articles yet. Publish your first post in /admin.
           </p>
         )}
       </section>
@@ -187,12 +187,12 @@ export default async function MxgpHomepage({
       {products.length > 0 && (
         <section
           className="mxgp-section mxgp-section-alt"
-          aria-label="Sản phẩm nổi bật"
+          aria-label="Featured products"
         >
           <div className="mxgp-section-head">
-            <h2 className="mxgp-section-title">Sản phẩm nổi bật</h2>
+            <h2 className="mxgp-section-title">Featured products</h2>
             <Link href={`/${locale}/produkter`} className="mxgp-section-link">
-              Vào cửa hàng →
+              Visit shop →
             </Link>
           </div>
           <div className="mxgp-productgrid">
@@ -232,13 +232,13 @@ export default async function MxgpHomepage({
       )}
 
       {/* ── 4. CTA BAND ───────────────────────────────────────────── */}
-      <section className="mxgp-cta" aria-label="Mua sắm">
-        <h2 className="mxgp-cta-title">Đồ MXGP chính hãng</h2>
+      <section className="mxgp-cta" aria-label="Shopping">
+        <h2 className="mxgp-cta-title">Official MXGP gear</h2>
         <p className="mxgp-cta-text">
-          Áo, mũ và phụ kiện từ thế giới Motocross Grand Prix.
+          Apparel, caps and accessories from the world of Motocross Grand Prix.
         </p>
         <Link href={`/${locale}/produkter`} className="mxgp-btn mxgp-btn-light">
-          Mua sắm ngay
+          Shop now
         </Link>
       </section>
     </div>
