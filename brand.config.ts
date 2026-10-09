@@ -817,7 +817,7 @@ export const brand = {
      * minor-units (øre for DKK, cents for EUR/USD). Multi-currency support
      * via supportedCurrencies nedenfor konverterer ved display-tid.
      */
-    currency: "DKK",
+    currency: "USD",
     /**
      * Multi-currency rate-table for currencySwitcher feature. Rates er
      * unit-per-1-base-unit. The configured base currency must have rate 1;
