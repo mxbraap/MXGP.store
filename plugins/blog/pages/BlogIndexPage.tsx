@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const brand = await getBrand();
   const description =
     locale === "da"
-      ? `Artikler og nyheder fra ${brand.storeName}.`
+      ? `Articles and news from ${brand.storeName}.`
       : `Articles and news from ${brand.storeName}.`;
   return buildLocalizedPageMetadata({
     locale,
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 function formatDate(d: Date | null): string {
   if (!d) return "";
-  return new Date(d).toLocaleDateString("da-DK", {
+  return new Date(d).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -99,11 +99,11 @@ export default async function BlogIndexPage({ params }: Props) {
         >
           Blog
         </h1>
-        <p className="mt-2 text-sol-muted">Artikler og nyheder fra {brand.storeName}.</p>
+        <p className="mt-2 text-sol-muted">Articles and news from {brand.storeName}.</p>
       </header>
 
       {posts.length === 0 ? (
-        <p className="text-sol-muted">Ingen indlæg endnu.</p>
+        <p className="text-sol-muted">No posts yet.</p>
       ) : (
         <div className="grid gap-8 sm:grid-cols-2">
           {posts.map((post) => (

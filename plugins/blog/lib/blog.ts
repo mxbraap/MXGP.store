@@ -74,7 +74,9 @@ function localize(
 }
 
 export async function listPublishedPosts(): Promise<PostSummary[]> {
-  const posts = await prisma.post.findMany({
+  let posts: { slug: string; title: string; excerpt: string | null; coverImage: string | null; author: string | null; publishedAt: Date | null; tags: string | null; }[] = [];
+  try {
+    posts = await prisma.post.findMany({
     where: { status: "published" },
     orderBy: { publishedAt: "desc" },
     select: {
@@ -87,6 +89,7 @@ export async function listPublishedPosts(): Promise<PostSummary[]> {
       tags: true,
     },
   });
+  } catch { /* DB unreachable — return empty instead of 500 */ }
   return posts.map((p) => ({
     slug: p.slug,
     title: p.title,
