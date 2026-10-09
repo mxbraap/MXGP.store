@@ -20,13 +20,13 @@ async function getFeaturedProducts() {
     return await prisma.product.findMany({
       take: 4,
       orderBy: { createdAt: "desc" },
-      select: { id: true, name: true, slug: true, price: true, images: true },
+      select: { id: true, name: true, slug: true, priceDkk: true, images: true },
     });
   } catch { return []; }
 }
 
-function formatPrice(price: number) {
-  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(price / 100);
+function formatPrice(priceDkk: number) {
+  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(priceDkk / 100);
 }
 
 export default async function HomePage() {
@@ -37,7 +37,6 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-white font-sans">
-      {/* HERO - Latest article full screen */}
       {hero && (
         <section className="relative h-[85vh] min-h-[500px] w-full overflow-hidden bg-black">
           {hero.coverImage && (
@@ -63,7 +62,6 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* NEWS GRID */}
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
         <div className="mb-8 flex items-center justify-between">
           <h2 className="text-3xl font-black uppercase tracking-tight">Latest News</h2>
@@ -93,7 +91,6 @@ export default async function HomePage() {
         )}
       </section>
 
-      {/* FEATURED PRODUCTS */}
       <section className="bg-gray-50 py-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mb-8 flex items-center justify-between">
@@ -102,7 +99,8 @@ export default async function HomePage() {
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {products.map((p) => {
-              const imgs = typeof p.images === "string" ? JSON.parse(p.images) : (p.images || []);
+              let imgs: string[] = [];
+              try { imgs = JSON.parse(p.images || "[]"); } catch {}
               return (
                 <Link key={p.id} href={`/produkter/${p.slug}`} className="group bg-white p-4 shadow-sm">
                   <div className="aspect-square bg-gray-100 overflow-hidden">
@@ -111,7 +109,7 @@ export default async function HomePage() {
                     )}
                   </div>
                   <h3 className="mt-3 font-bold group-hover:text-red-600">{p.name}</h3>
-                  <p className="mt-1 font-black">{formatPrice(p.price)}</p>
+                  <p className="mt-1 font-black">{formatPrice(p.priceDkk)}</p>
                 </Link>
               );
             })}
@@ -119,7 +117,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* CTA BAND */}
       <section className="bg-red-600 py-16 text-center text-white">
         <h2 className="text-3xl font-black uppercase">MXGP News & Online Store</h2>
         <p className="mt-3 text-white/90">Stay updated with the latest from the FIM Motocross World Championship.</p>
