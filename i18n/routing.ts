@@ -8,7 +8,9 @@ export const routing = defineRouting({
   // de/sv/no, so wider hreflang lights up automatically.
   locales: [...brand.locales],
   // Used when no locale matches
-  defaultLocale: brand.defaultLocale
+  defaultLocale: brand.defaultLocale,
+  // Single-language site: hide /en prefix on default locale URLs
+  localePrefix: "as-needed"
 });
 
 /**
