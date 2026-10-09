@@ -16,7 +16,7 @@ export const brand = {
   storeSlug: "mxgp-store",
   domain: "mxgp.store",
   url: "https://mxgp.store",
-  tagline: "MXGP news & official store",
+  tagline: "MXGP news & Online Store",
   /**
    * Vælger seed-data-template (industry-templates/<slug>/).
    * Cartwright shipper "generic", "website-corporate", "coffee", "sunglasses",
@@ -102,11 +102,11 @@ export const brand = {
   // ─── Contact ─────────────────────────────────────────────────────────────
   emails: {
     /** From-adresse for transactional mails (Resend skal være verified for dette domæne) */
-    from: "noreply@cartwright.app",
+    from: "noreply@mxgp.store",
     /** Display-name vist før <from>-adressen i mail-klienter */
-    fromName: "Cartwright",
+    fromName: "MXGP.store",
     /** Kunde-support */
-    support: "support@cartwright.app",
+    support: "support@mxgp.store",
     /** Admin / interne notifikationer */
     admin: "admin@cartwright.app",
   },
