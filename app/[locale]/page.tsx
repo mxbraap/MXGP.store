@@ -102,7 +102,7 @@ export default async function HomePage() {
               let imgs: string[] = [];
               try { imgs = JSON.parse(p.images || "[]"); } catch {}
               return (
-                <Link key={p.id} href={`/produkter/${p.slug}`} className="group bg-white p-4 shadow-sm">
+                <Link key={p.id} href={`/product/${p.slug}`} className="group bg-white p-4 shadow-sm">
                   <div className="aspect-square bg-gray-100 overflow-hidden">
                     {imgs[0] && (
                       <img src={imgs[0]} alt={p.name} className="h-full w-full object-cover group-hover:scale-105 transition" />
